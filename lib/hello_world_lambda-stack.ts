@@ -1,16 +1,23 @@
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as cdk from "aws-cdk-lib";
+import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
+import { Construct } from "constructs";
 
 export class HelloWorldLambdaStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    // Create a Lambda function
+    const helloWorldLambda = new Function(this, "HelloWorldLambda", {
+      runtime: Runtime.PYTHON_3_10,
+      handler: "index.handler",
+      code: Code.fromAsset("lambda"),
+      functionName: "hello-world-lambda",
+      timeout: cdk.Duration.minutes(1),
+    });
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'HelloWorldLambdaQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    new cdk.CfnOutput(this, "LambdaFunctionArn", {
+      value: helloWorldLambda.functionArn,
+      description: "ARN of hello world lambda function",
+    });
   }
 }
