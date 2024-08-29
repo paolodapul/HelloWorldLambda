@@ -11,7 +11,7 @@ export class HelloWorldLambdaStack extends cdk.Stack {
       runtime: Runtime.PYTHON_3_10,
       handler: "index.handler",
       code: Code.fromAsset("lambda"),
-      functionName: "hello-world-lambda",
+      functionName: "demo-lambda",
       timeout: cdk.Duration.minutes(1),
     });
 
